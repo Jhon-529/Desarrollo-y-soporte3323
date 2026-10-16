@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TiendaExpress</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN (aparece al entrar) -->
+<div class="login-pantalla" id="login">
+  <form class="login-caja" onsubmit="enviarLogin(event)">
+    <h1>🛒 TiendaExpress</h1>
+    <p class="login-sub" id="loginSub">Inicia sesión para comprar</p>
+
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" autocomplete="username" required>
+
+    <label for="clave">Contraseña</label>
+    <input type="password" id="clave" autocomplete="current-password" required minlength="4">
+
+    <div class="error" id="loginError"></div>
+
+    <button type="submit" class="btn-principal" id="loginBtn">Ingresar</button>
+    <button type="button" class="btn-link" id="loginCambiar" onclick="cambiarModoLogin()">¿No tienes cuenta? Crear cuenta</button>
+  </form>
+</div>
+
+<!-- TIENDA -->
+<div id="app" style="display:none;">
+  <div class="header">
+    <h1>TiendaExpress</h1>
+    <div class="header-der">
+      <span class="saludo">Hola, <b id="nombreUsuario"></b></span>
+      <button class="btn-carrito" onclick="toggleCarrito()">🛒 Carrito (<span id="contador">0</span>)</button>
+      <button class="btn-salir" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- CARRITO -->
+<div class="overlay" id="overlay" onclick="cerrar(event)">
+  <div class="panel">
+    <h2>Mi Carrito <button onclick="toggleCarrito()">×</button></h2>
+    <div class="items" id="lista"></div>
+    <div class="footer">
+      <div class="total"><span>Total</span><span>S/ <span id="total">0.00</span></span></div>
+      <button class="btn-pagar" onclick="pagar()">Tramitar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- DATOS DEL PEDIDO -->
+<div class="modal" id="modal" onclick="cerrarModal(event)">
+  <form class="modal-caja" onsubmit="confirmarPedido(event)" novalidate>
+    <h2>Datos del pedido <button type="button" onclick="cerrarModal()">×</button></h2>
+
+    <div class="fila">
+      <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" autocomplete="given-name">
+      </div>
+      <div>
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" autocomplete="family-name">
+      </div>
+    </div>
+
+    <label for="dni">DNI</label>
+    <input type="text" id="dni" inputmode="numeric" maxlength="8" placeholder="8 dígitos">
+
+    <label for="tarjeta">Número de tarjeta</label>
+    <input type="text" id="tarjeta" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" autocomplete="off">
+
+    <label for="telefono">Teléfono</label>
+    <input type="text" id="telefono" inputmode="numeric" maxlength="9" placeholder="9 dígitos, ej: 987654321">
+
+    <div class="error" id="pedidoError"></div>
+
+    <div class="resumen">Total a pagar: <b>S/ <span id="totalModal">0.00</span></b></div>
+    <button type="submit" class="btn-principal">Confirmar pedido</button>
+  </form>
+</div>
+
+<!-- BOLETO DE IMPRESIÓN -->
+<div class="modal" id="boleto" onclick="cerrarBoleto(event)">
+  <div class="boleto-caja">
+    <div class="boleto-papel" id="boletoContenido"></div>
+    <div class="boleto-botones no-print">
+      <button class="btn-principal" onclick="imprimirBoleto()">🖨️ Imprimir boleto</button>
+      <button class="btn-link" onclick="cerrarBoleto()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- AVISO -->
+<div class="toast" id="toast"></div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
